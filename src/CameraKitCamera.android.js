@@ -1,62 +1,70 @@
-import * as _ from 'lodash';
-import React, { Component } from 'react';
+import * as _ from 'lodash'
+import React, { Component } from 'react'
 import {
-	requireNativeComponent,
+  requireNativeComponent,
   NativeModules,
-  processColor
-} from 'react-native';
+  processColor,
+  PermissionsAndroid
+} from 'react-native'
 
-const NativeCamera = requireNativeComponent('CameraView', null);
-const NativeCameraModule = NativeModules.CameraModule;
-const TORCH_MODE_ON = 'on';
-const TORCH_MODE_CALL_ARG = 'torch';
+const NativeCamera = requireNativeComponent('CameraView', null)
+const NativeCameraModule = NativeModules.CameraModule
+const TORCH_MODE_ON = 'on'
+const TORCH_MODE_CALL_ARG = 'torch'
 
 export default class CameraKitCamera extends React.Component {
+  render () {
+    const transformedProps = _.cloneDeep(this.props)
+    _.update(transformedProps, 'cameraOptions.ratioOverlayColor', (c) => processColor(c))
+    _.update(transformedProps, 'frameColor', (c) => processColor(c))
+    _.update(transformedProps, 'laserColor', (c) => processColor(c))
+    _.update(transformedProps, 'surfaceColor', (c) => processColor(c))
 
-  render() {
-    const transformedProps = _.cloneDeep(this.props);
-    _.update(transformedProps, 'cameraOptions.ratioOverlayColor', (c) => processColor(c));
-    _.update(transformedProps, 'frameColor', (c) => processColor(c));
-    _.update(transformedProps, 'laserColor', (c) => processColor(c));
-    _.update(transformedProps, 'surfaceColor', (c) => processColor(c));
-
-    return <NativeCamera {...transformedProps}/>
+    return <NativeCamera {...transformedProps} />
   }
 
-  async logData() {
-    console.log('front Camera?', await NativeCameraModule.hasFrontCamera());
-    console.log('hasFlash?', await NativeCameraModule.hasFlashForCurrentCamera());
-    console.log('flashMode?', await NativeCameraModule.getFlashMode());
+  async logData () {
+    console.log('front Camera?', await NativeCameraModule.hasFrontCamera())
+    console.log('hasFlash?', await NativeCameraModule.hasFlashForCurrentCamera())
+    console.log('flashMode?', await NativeCameraModule.getFlashMode())
   }
 
-  static async requestDeviceCameraAuthorization() {
-    return await NativeCameraModule.requestDeviceCameraAuthorization();
+  static async requestDeviceCameraAuthorization () {
+    return await NativeCameraModule.requestDeviceCameraAuthorization()
   }
 
-  async capture(saveToCameraRoll = true) {
-    return await NativeCameraModule.capture(saveToCameraRoll);
+  async capture (saveToCameraRoll = true) {
+    return await NativeCameraModule.capture(saveToCameraRoll)
   }
 
-  async changeCamera() {
-    return await NativeCameraModule.changeCamera();
+  async changeCamera () {
+    return await NativeCameraModule.changeCamera()
   }
 
-  async setTorchMode(torchMode) {
-    if (torchMode == TORCH_MODE_ON){
-      return await NativeCameraModule.setFlashMode(TORCH_MODE_CALL_ARG);
+  async setTorchMode (torchMode) {
+    if (torchMode == TORCH_MODE_ON) {
+      return await NativeCameraModule.setFlashMode(TORCH_MODE_CALL_ARG)
     }
-    return await NativeCameraModule.setFlashMode(torchMode);
+    return await NativeCameraModule.setFlashMode(torchMode)
   }
 
-  async setFlashMode(flashMode = 'auto') {
-    return await NativeCameraModule.setFlashMode(flashMode);
+  async setFlashMode (flashMode = 'auto') {
+    return await NativeCameraModule.setFlashMode(flashMode)
   }
 
-  static async checkDeviceCameraAuthorizationStatus() {
-    return await NativeCameraModule.checkDeviceCameraAuthorizationStatus();
+  static async checkDeviceCameraAuthorizationStatus () {
+    let permisson
+    try {
+      permisson = await NativeCameraModule.checkDeviceCameraAuthorizationStatus()
+    } catch (e) {
+      let granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA)
+      permisson = granted === PermissionsAndroid.RESULTS.GRANTED
+    } finally {
+      return permisson
+    }
   }
 
-  static async hasCameraPermission() {
-    return await NativeCameraModule.hasCameraPermission();
+  static async hasCameraPermission () {
+    return await NativeCameraModule.hasCameraPermission()
   }
 }
