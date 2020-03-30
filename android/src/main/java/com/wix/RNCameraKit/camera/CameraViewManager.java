@@ -317,7 +317,7 @@ public class CameraViewManager extends SimpleViewManager<CameraView> {
         view.setShowFrame(show);
     }
 
-    @ReactProp(name = "frameColor", defaultInt = Color.GREEN)
+    @ReactProp(name = "frameColor", defaultInt = Color.WHITE)
     public void setFrameColor(CameraView view, @ColorInt int color) {
         view.setFrameColor(color);
     }
@@ -325,6 +325,16 @@ public class CameraViewManager extends SimpleViewManager<CameraView> {
     @ReactProp(name = "laserColor", defaultInt = Color.RED)
     public void setLaserColor(CameraView view, @ColorInt int color) {
         view.setLaserColor(color);
+    }
+
+    @ReactProp(name = "frameHeight", defaultInt = 0)
+    public void setFrameHeight(CameraView view, int frameHeight) {
+        view.setFrameHeight(frameHeight);
+    }
+
+    @ReactProp(name = "frameSize", defaultInt = 300)
+    public void setFrameSize(CameraView view, int frameSize) {
+        view.setFrameSize(frameSize);
     }
 
     @ReactProp(name = "surfaceColor")
