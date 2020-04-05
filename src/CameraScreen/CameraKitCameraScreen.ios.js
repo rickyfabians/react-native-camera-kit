@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import {View} from 'react-native';
-import CameraScreenBase from './CameraKitCameraScreenBase';
+import React, { Component } from 'react'
+import { View } from 'react-native'
+import CameraScreenBase from './CameraKitCameraScreenBase'
 
 export default class CameraScreen extends CameraScreenBase {
-
-  render() {
+  render () {
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }} {...this.props}>
         {this.renderTopButtons()}
@@ -12,6 +11,6 @@ export default class CameraScreen extends CameraScreenBase {
         {this.renderRatioStrip()}
         {this.renderBottomButtons()}
       </View>
-    );
+    )
   }
 }

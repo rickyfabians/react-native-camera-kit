@@ -17,6 +17,7 @@ public class BarcodeFrame extends View {
     private static final int ANIMATION_SPEED = 8;
     private static final int WIDTH_SCALE = 7;
     private static final double HEIGHT_SCALE = 2.75;
+    private static final double HEIGHT_SCALE_QR = 3.00;
 
     private Paint dimPaint;
     private Paint framePaint;
@@ -28,6 +29,7 @@ public class BarcodeFrame extends View {
     private int borderMargin;
     private int frameHeight;
     private int frameSize;
+    private boolean qrFrame;
 
     private long previousFrameTime = System.currentTimeMillis();
     private int laserY;
@@ -61,12 +63,14 @@ public class BarcodeFrame extends View {
         width = getMeasuredWidth();
         height = getMeasuredHeight();
         int marginWidth = width / WIDTH_SCALE;
-        int marginHeight = (int) (height / HEIGHT_SCALE);
+        int marginHeight = (int) (height / (double) 2.75);
+        int sizeFrame = (int)(height*0.30);
+        if(qrFrame) sizeFrame = (int)(height*0.45);
 
         frameRect.left = marginWidth;
         frameRect.right = width - marginWidth;
-        frameRect.top = marginHeight - frameHeight;
-        frameRect.bottom = marginHeight - frameHeight + frameSize;
+        frameRect.top = (int)(height*0.10);
+        frameRect.bottom = sizeFrame;
     }
 
     @Override
@@ -116,5 +120,9 @@ public class BarcodeFrame extends View {
 
     public void setFrameSize(int frameSize) {
         this.frameSize = frameSize;
+    }
+
+    public void setQrFrame(int qrFrame) {
+        this.qrFrame = qrFrame;
     }
 }

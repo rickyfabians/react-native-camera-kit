@@ -18,6 +18,7 @@ public class CameraView extends FrameLayout implements SurfaceHolder.Callback {
     private SurfaceView surface;
 
     private boolean showFrame;
+    private boolean QrFrame;
     private Rect frameRect;
     private BarcodeFrame barcodeFrame;
     private int frameHeight = 0;
@@ -82,6 +83,13 @@ public class CameraView extends FrameLayout implements SurfaceHolder.Callback {
 
     public void setShowFrame(boolean showFrame) {
         this.showFrame = showFrame;
+    }
+
+    public void setQrFrame(boolean QrFrame) {
+        this.QrFrame = QrFrame;
+        if (QrFrame) {
+            barcodeFrame.setQrFrame(QrFrame);
+        }
     }
 
     public void showFrame() {

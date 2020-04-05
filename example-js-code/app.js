@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   AppRegistry,
   StyleSheet,
@@ -6,28 +6,27 @@ import {
   View,
   TouchableOpacity,
   AlertIOS
-} from 'react-native';
+} from 'react-native'
 
-import {CameraKitCamera, CameraKitGallery} from '../src';
+import { CameraKitCamera, CameraKitGallery } from '../src'
 
-import CameraScreen from './src/CameraScreen';
-import AlbumsScreen from './src/AlbumsScreen';
-import GalleryScreen from './src/GalleryScreen';
-import BarcodeScreen from './src/BarcodeScreen';
+import CameraScreen from './src/CameraScreen'
+import AlbumsScreen from './src/AlbumsScreen'
+import GalleryScreen from './src/GalleryScreen'
+import BarcodeScreen from './src/BarcodeScreen'
 
 class example extends Component {
-
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       example: undefined
-    };
+    }
   }
 
-  render() {
+  render () {
     if (this.state.example) {
-      const Example = this.state.example;
-      return <Example />;
+      const Example = this.state.example
+      return <Example />
     }
     return (
       <View style={{ flex: 1 }}>
@@ -37,7 +36,6 @@ class example extends Component {
           </Text>
           <Text style={{ fontSize: 40 }}>📷</Text>
         </View>
-
 
         <View style={styles.container}>
           <TouchableOpacity onPress={() => this.setState({ example: BarcodeScreen })}>
@@ -79,25 +77,23 @@ class example extends Component {
 
       </View>
 
-    );
+    )
   }
 
-  async onCheckCameraAuthoPressed() {
-    const success = await CameraKitCamera.checkDeviceCameraAuthorizationStatus();
+  async onCheckCameraAuthoPressed () {
+    const success = await CameraKitCamera.checkDeviceCameraAuthorizationStatus()
     if (success) {
       AlertIOS.alert('You have permission 🤗')
-    }
-    else {
+    } else {
       AlertIOS.alert('No permission 😳')
     }
   }
 
-  async onCheckGalleryAuthoPressed() {
-    const success = await CameraKitGallery.checkDevicePhotosAuthorizationStatus();
+  async onCheckGalleryAuthoPressed () {
+    const success = await CameraKitGallery.checkDevicePhotosAuthorizationStatus()
     if (success) {
       AlertIOS.alert('You have permission 🤗')
-    }
-    else {
+    } else {
       AlertIOS.alert('No permission 😳')
     }
   }
@@ -109,7 +105,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     paddingTop: 60,
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#F5FCFF'
   },
   headerContainer: {
     flexDirection: 'column',
@@ -127,6 +123,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontSize: 20
   }
-});
+})
 
-AppRegistry.registerComponent('CameraKit', () => example);
+AppRegistry.registerComponent('CameraKit', () => example)

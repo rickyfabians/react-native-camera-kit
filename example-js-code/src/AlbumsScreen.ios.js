@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
@@ -6,21 +6,18 @@ import {
   TouchableOpacity,
   Image,
   Switch
-} from 'react-native';
+} from 'react-native'
 
-import {CameraKitGallery, CameraKitGalleryView} from '../../src';
-import _ from 'lodash';
+import { CameraKitGallery, CameraKitGalleryView } from '../../src'
+import _ from 'lodash'
 
-import CameraScreen from './CameraScreen';
-
+import CameraScreen from './CameraScreen'
 
 export default class AlbumsScreen extends Component {
-  
-  constructor(props) {
-    
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
-      album: {albumName: 'All Photos'},
+      album: { albumName: 'All Photos' },
       albums: [],
       dropdownVisible: false,
       images: [],
@@ -30,54 +27,50 @@ export default class AlbumsScreen extends Component {
       getUrlOnTapImage: false
     }
   }
-  
-  componentDidMount() {
-    this.reloadAlbums();
+
+  componentDidMount () {
+    this.reloadAlbums()
   }
-  
-  async reloadAlbums() {
-    const newAlbums = await CameraKitGallery.getAlbumsWithThumbnails();
-    
-    let albums = [];
-    
+
+  async reloadAlbums () {
+    const newAlbums = await CameraKitGallery.getAlbumsWithThumbnails()
+
+    let albums = []
+
     for (let name in newAlbums.albums) {
-      albums.push(_.get(newAlbums, ['albums', name]));
+      albums.push(_.get(newAlbums, ['albums', name]))
     }
-    this.setState({albums})
+    this.setState({ albums })
   }
-  
-  imageTapped(selected) {
+
+  imageTapped (selected) {
     if (this.state.images.indexOf(selected) < 0) {
-      this.setState({images: _.concat(this.state.images, selected), tappedImage: selected});
+      this.setState({ images: _.concat(this.state.images, selected), tappedImage: selected })
+    } else {
+      this.setState({ images: _.without(this.state.images, selected) })
     }
-    else {
-      this.setState({images: _.without(this.state.images, selected)})
-      
-    }
-    
   }
-  
-  render() {
-    
+
+  render () {
     if (this.state.shouldRenderCameraScreen) {
       return (
-        <CameraScreen/>
-      );
+        <CameraScreen />
+      )
     }
-    
+
     return (
       <View style={styles.container}>
         <CameraKitGalleryView
           ref={(gallery) => {
-            this.gallery = gallery;
+            this.gallery = gallery
           }}
-          style={{flex: 1, backgroundColor:'green'}}
+          style={{ flex: 1, backgroundColor: 'green' }}
           minimumInteritemSpacing={10}
           minimumLineSpacing={10}
           columnCount={3}
           albumName={'all photos'}
           onTapImage={(result) => {
-            this.imageTapped(result.nativeEvent.selected);
+            this.imageTapped(result.nativeEvent.selected)
           }}
           selection={{
             selectedImage: require('../images/selected.png'),
@@ -85,7 +78,7 @@ export default class AlbumsScreen extends Component {
             overlayColor: '#ecf0f1aa'
           }}
           fileTypeSupport={{
-            unsupportedOverlayColor: "#00000055",
+            unsupportedOverlayColor: '#00000055',
             unsupportedImage: require('../images/unsupportedImage.png'),
             unsupportedText: 'Unsupported',
             unsupportedTextColor: '#ffffff'
@@ -96,57 +89,55 @@ export default class AlbumsScreen extends Component {
             backgroundColor: '#f2f4f5'
           }}
           onCustomButtonPress={(result) => {
-            this.onCustomButtonPressed();
+            this.onCustomButtonPressed()
           }}
           getUrlOnTapImage={this.state.getUrlOnTapImage}
         />
-        
+
         <View style={{
           alignItems: 'center',
-          justifyContent: 'space-between',}}>
+          justifyContent: 'space-between' }}>
           {this.renderImagesDetails()}
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Switch
-              onValueChange={(value) => this.setState({getUrlOnTapImage: value})}
+              onValueChange={(value) => this.setState({ getUrlOnTapImage: value })}
               value={this.state.getUrlOnTapImage}
-              style={{margin: 10}}
+              style={{ margin: 10 }}
             />
             <Text>
               getUrlOnTapImage
             </Text>
           </View>
-          
+
           {this.state.getUrlOnTapImage && <Image
-            style={{width: 100, height: 100}}
-            source={{uri: this.state.tappedImage}}
+            style={{ width: 100, height: 100 }}
+            source={{ uri: this.state.tappedImage }}
           />}
-          
-          
-          <TouchableOpacity  onPress={() => this.getImagesForIds()}>
+
+          <TouchableOpacity onPress={() => this.getImagesForIds()}>
             <Text style={styles.buttonText}>
               Get Selected Images
             </Text>
           </TouchableOpacity>
         </View>
-      
+
       </View>
-    );
+    )
   }
-  
-  renderCameraScreen() {
-    
-    return <CameraScreen/>
+
+  renderCameraScreen () {
+    return <CameraScreen />
   }
-  
-  onCustomButtonPressed() {
-    this.setState({shouldRenderCameraScreen: true});
+
+  onCustomButtonPressed () {
+    this.setState({ shouldRenderCameraScreen: true })
   }
-  
-  renderImagesDetails() {
+
+  renderImagesDetails () {
     if (!this.state.imagesDetails) {
-      return null;
+      return null
     }
-    
+
     return (
       <View>
         <Text>
@@ -155,19 +146,18 @@ export default class AlbumsScreen extends Component {
       </View>
     )
   }
-  
-  async getImagesForIds() {
-    const imagesDict = await CameraKitGallery.getImagesForIds(this.state.images);
-    this.setState({imagesDetails: imagesDict});
+
+  async getImagesForIds () {
+    const imagesDict = await CameraKitGallery.getImagesForIds(this.state.images)
+    this.setState({ imagesDetails: imagesDict })
   }
-  
-  async onGetAlbumsPressed() {
-    let albums = await CameraKitGallery.getAlbumsWithThumbnails();
-    albums = albums.albums;
-    
-    this.setState({albums: {albums}, shouldShowListView: true});
+
+  async onGetAlbumsPressed () {
+    let albums = await CameraKitGallery.getAlbumsWithThumbnails()
+    albums = albums.albums
+
+    this.setState({ albums: { albums }, shouldShowListView: true })
   }
-  
 }
 
 const styles = StyleSheet.create({
@@ -182,6 +172,4 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontSize: 20
   }
-});
-
-
+})

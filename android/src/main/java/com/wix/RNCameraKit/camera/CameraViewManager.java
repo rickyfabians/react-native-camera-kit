@@ -337,9 +337,14 @@ public class CameraViewManager extends SimpleViewManager<CameraView> {
         view.setFrameSize(frameSize);
     }
 
-    @ReactProp(name = "surfaceColor")
-    public void setSurfaceBackground(CameraView view, @ColorInt int color) {
-        view.setSurfaceBgColor(color);
+    @ReactProp(name = "frameSize", defaultInt = 300)
+    public void setFrameSize(CameraView view, int frameSize) {
+        view.setFrameSize(frameSize);
+    }
+
+    @ReactProp(name = "QrFrame", defaultBoolean = false)
+    public void setQrFrame(CameraView view, boolean show) {
+        view.QrFrame(QrFrame);
     }
 
     public static synchronized Rect getFramingRectInPreview(int previewWidth, int previewHeight) {

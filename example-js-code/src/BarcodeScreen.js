@@ -1,36 +1,34 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   Alert
-} from 'react-native';
-import { CameraKitCameraScreen } from '../../src';
-import CheckingScreen from './CheckingScreen';
-
+} from 'react-native'
+import { CameraKitCameraScreen } from '../../src'
+import CheckingScreen from './CheckingScreen'
 
 export default class CameraScreen extends Component {
-
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       example: undefined
-    };
+    }
   }
 
-  onBottomButtonPressed(event) {
-    const captureImages = JSON.stringify(event.captureImages);
+  onBottomButtonPressed (event) {
+    const captureImages = JSON.stringify(event.captureImages)
     Alert.alert(
       `${event.type} button pressed`,
       `${captureImages}`,
       [
-        { text: 'OK', onPress: () => console.log('OK Pressed') },
+        { text: 'OK', onPress: () => console.log('OK Pressed') }
       ],
       { cancelable: false }
     )
   }
 
-  render() {
+  render () {
     if (this.state.example) {
-      const CameraScreen = this.state.example;
-      return <CameraScreen />;
+      const CameraScreen = this.state.example
+      return <CameraScreen />
     }
     return (
       <CameraKitCameraScreen
@@ -41,20 +39,17 @@ export default class CameraScreen extends Component {
           off: require('./../images/flashOff.png'),
           auto: require('./../images/flashAuto.png')
         }}
-        showFrame={true}
-        scanBarcode={true}
-        laserColor={"blue"}
-        surfaceColor={"black"}
-        frameColor={"yellow"}
+        showFrame
+        scanBarcode
+        laserColor={'blue'}
+        surfaceColor={'black'}
+        frameColor={'yellow'}
         onReadCode={((event) => this.setState({ example: CheckingScreen }))}
-        hideControls={true}
-        // offsetForScannerFrame = {10}  
-        // heightForScannerFrame = {300}  
+        hideControls
+        // offsetForScannerFrame = {10}
+        // heightForScannerFrame = {300}
         colorForScannerFrame={'blue'}
       />
-    );
+    )
   }
 }
-
-
-

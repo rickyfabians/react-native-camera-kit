@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
-import {View} from 'react-native';
-import CameraScreenBase from './CameraKitCameraScreenBase';
+import React, { Component } from 'react'
+import { View } from 'react-native'
+import CameraScreenBase from './CameraKitCameraScreenBase'
 
 export default class CameraScreen extends CameraScreenBase {
-
-  renderGap() {
+  renderGap () {
     return (
-      <View style={{flex: 10, flexDirection: 'column'}}/>
-    );
+      <View style={{ flex: 10, flexDirection: 'column' }} />
+    )
   }
 
-  render() {
+  render () {
     return (
       <View style={{ flex: 1, backgroundColor: 'transparent' }} {...this.props}>
         {this.renderCamera()}
@@ -18,8 +17,6 @@ export default class CameraScreen extends CameraScreenBase {
         {this.renderGap()}
         {this.renderBottomButtons()}
       </View>
-    );
+    )
   }
 }
-
-

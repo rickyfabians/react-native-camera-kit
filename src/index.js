@@ -1,14 +1,11 @@
-import CameraKitGallery from './CameraKitGallery';
-import CameraKitCamera from './CameraKitCamera';
-import CameraKitGalleryView from './CameraKitGalleryView';
-import CameraKitCameraScreen from './CameraScreen/CameraKitCameraScreen';
+import CameraKitGallery from './CameraKitGallery'
+import CameraKitCamera from './CameraKitCamera'
+import CameraKitGalleryView from './CameraKitGalleryView'
+import CameraKitCameraScreen from './CameraScreen/CameraKitCameraScreen'
 
 export {
-	CameraKitGallery,
-	CameraKitCamera,
+  CameraKitGallery,
+  CameraKitCamera,
   CameraKitGalleryView,
-  CameraKitCameraScreen,
-};
-
-
-
+  CameraKitCameraScreen
+}

@@ -4,7 +4,7 @@ export default styleObject = {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 14
-  },
+  }
 //   bottomContainerGap: {
 //     flex: 1,
 //     flexDirection: 'row',
