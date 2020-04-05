@@ -169,6 +169,7 @@ export default class CameraScreenBase extends Component {
               scannerOptions = {this.state.scannerOptions}
               frameHeight = {this.props.frameHeightAndroid}
               frameSize = {this.props.frameSizeAndroid}
+              qrFrame = {this.props.qrFrame}
             />
         }
       </View>
