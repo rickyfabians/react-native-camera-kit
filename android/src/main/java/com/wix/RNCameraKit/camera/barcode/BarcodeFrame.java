@@ -122,7 +122,7 @@ public class BarcodeFrame extends View {
         this.frameSize = frameSize;
     }
 
-    public void setQrFrame(int qrFrame) {
+    public void setQrFrame(boolean qrFrame) {
         this.qrFrame = qrFrame;
     }
 }

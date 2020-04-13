@@ -18,7 +18,7 @@ public class CameraView extends FrameLayout implements SurfaceHolder.Callback {
     private SurfaceView surface;
 
     private boolean showFrame;
-    private boolean QrFrame;
+    private boolean qrFrame;
     private Rect frameRect;
     private BarcodeFrame barcodeFrame;
     private int frameHeight = 0;
@@ -85,13 +85,6 @@ public class CameraView extends FrameLayout implements SurfaceHolder.Callback {
         this.showFrame = showFrame;
     }
 
-    public void setQrFrame(boolean QrFrame) {
-        this.QrFrame = QrFrame;
-        if (QrFrame) {
-            barcodeFrame.setQrFrame(QrFrame);
-        }
-    }
-
     public void showFrame() {
         if (showFrame) {
             barcodeFrame = new BarcodeFrame(getContext());
@@ -99,6 +92,7 @@ public class CameraView extends FrameLayout implements SurfaceHolder.Callback {
             barcodeFrame.setLaserColor(laserColor);
             barcodeFrame.setFrameHeight(frameHeight);
             barcodeFrame.setFrameSize(frameSize);
+            barcodeFrame.setQrFrame(qrFrame);
             addView(barcodeFrame);
             requestLayout();
         }
@@ -152,6 +146,13 @@ public class CameraView extends FrameLayout implements SurfaceHolder.Callback {
         this.frameSize = size;
         if (barcodeFrame != null) {
             barcodeFrame.setFrameSize(size);
+        }
+    }
+
+     public void setQrFrame(boolean qrFrame) {
+        this.qrFrame = qrFrame;
+        if (barcodeFrame != null) {
+            barcodeFrame.setQrFrame(qrFrame);
         }
     }
 
