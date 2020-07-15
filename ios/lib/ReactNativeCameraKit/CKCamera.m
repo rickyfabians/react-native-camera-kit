@@ -174,6 +174,9 @@ RCT_ENUM_CONVERTER(CKCameraZoomMode, (@{
     if (self){
         // Create the AVCaptureSession.
         self.session = [[AVCaptureSession alloc] init];
+
+        // Fit camera preview inside of viewport
+        self.session.sessionPreset = AVCaptureSessionPresetPhoto;
         
         // Communicate with the session and other session objects on this queue.
         self.sessionQueue = dispatch_queue_create( "session queue", DISPATCH_QUEUE_SERIAL );
@@ -526,9 +529,22 @@ RCT_ENUM_CONVERTER(CKCameraZoomMode, (@{
     dispatch_async( self.sessionQueue, ^{
         AVCaptureConnection *connection = [self.stillImageOutput connectionWithMediaType:AVMediaTypeVideo];
         
-        // Update the orientation on the still image output video connection before capturing.
-        connection.videoOrientation = self.previewLayer.connection.videoOrientation;
-        
+        // Use device orientation to support taking landscape photos with orientation lock (portrait)
+        switch([UIDevice currentDevice].orientation) {
+            default:
+            case UIDeviceOrientationPortrait:
+                connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+                break;
+            case UIDeviceOrientationPortraitUpsideDown:
+                connection.videoOrientation = AVCaptureVideoOrientationPortraitUpsideDown;
+                break;
+            case UIDeviceOrientationLandscapeLeft:
+                connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
+                break;
+            case UIDeviceOrientationLandscapeRight:
+                connection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+                break;
+        }
         
         // Capture a still image.
         [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:connection completionHandler:^( CMSampleBufferRef imageDataSampleBuffer, NSError *error ) {
@@ -1118,7 +1134,7 @@ didOutputMetadataObjects:(NSArray<__kindof AVMetadataObject *> *)metadataObjects
     NSArray *supportedBarcodeTypes = @[AVMetadataObjectTypeUPCECode,AVMetadataObjectTypeCode39Code,AVMetadataObjectTypeCode39Mod43Code,
                                        AVMetadataObjectTypeEAN13Code,AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeCode93Code,
                                        AVMetadataObjectTypeCode128Code, AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeQRCode,
-                                       AVMetadataObjectTypeAztecCode];
+                                       AVMetadataObjectTypeAztecCode, AVMetadataObjectTypeDataMatrixCode];
     for (NSString* object in supportedBarcodeTypes) {
         if ([currentType isEqualToString:object]) {
             result = YES;
